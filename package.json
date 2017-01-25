@@ -1,0 +1,29 @@
+{
+  "name": "sp-oauth2-bot",
+  "version": "1.0.0",
+  "description": "Sample showing how to authenticate against SharePoint via OAuth2 using the bot framework with NodeJS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://perso-franckdev.visualstudio.com/_git/SharePointOAuth2Bot"
+  },
+  "keywords": [
+    "OAuth2",
+    "SharePoint",
+    "Bot",
+    "Framework"
+  ],
+  "author": "Franck Cornu",
+  "license": "ISC",
+  "dependencies": {
+    "adal-node": "^0.1.22",
+    "botbuilder": "^3.5.4",
+    "es6-promise": "^4.0.5",
+    "lodash": "^4.17.4",
+    "node-fetch": "^1.6.3",
+    "restify": "^4.3.0"
+  }
+}
