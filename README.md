@@ -21,7 +21,7 @@ In this sample, I show you how to search for your SharePoint content from a bot 
     <th>
         <p align="center">Microsoft Teams Channel</p>
         <p align="center">
-            <img width=300 src="./images/TeamsChannel.png">
+            <img width=300 src="./images/MicrosoftTeamsChannel.png">
         </p>
     </th>
   </tr>
@@ -29,7 +29,7 @@ In this sample, I show you how to search for your SharePoint content from a bot 
 
 ### Documentation #
 
-The complete documentation of this sample is available here: 
+The complete documentation of this sample is available [here](http://thecollaborationcorner.com/2017/01/25/search-for-your-sharepoint-content-from-a-bot-using-the-bot-framework-oauth2-and-node-js)
 
 ### Solution ###
 Solution                | Author(s)
@@ -49,4 +49,4 @@ THIS CODE IS PROVIDED AS IS WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPL
 
 # Installation #
 
-- See this URL to see the step-by-step guide.
+- See this [URL](http://thecollaborationcorner.com/2017/01/25/search-for-your-sharepoint-content-from-a-bot-using-the-bot-framework-oauth2-and-node-js) to see the step-by-step guide.
