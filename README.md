@@ -2,7 +2,7 @@
 
 ### Summary ###
 
-In this sample, I show you how to search for your SharePoint content from a bot using the Bot Framework, OAuth2 and Node.js. Behind this simple use case, the main objective of this example is to show you how to implement bots with authentication mechanism to access OAuth2 protected APIs (like SharePoint, Graph, etc.). The overall authentication process for bots has already been well descibed in this article but unfortunately, it only exists in .Net (there is also the AuthBot GitHub project, again in .Net).
+In this sample, I show you how to search for your SharePoint content from a bot using the Bot Framework, OAuth2 and Node.js. Behind this simple use case, the main objective of this example is to show you how to implement bots with authentication mechanism to access OAuth2 protected APIs (like SharePoint, Graph, etc.). The overall authentication process for bots has already been well described in this article but unfortunately, it only exists in .Net (there is also the AuthBot GitHub project, again in .Net).
 
 <table style="margin: 0px auto;">
   <tr>
@@ -29,7 +29,7 @@ In this sample, I show you how to search for your SharePoint content from a bot 
 
 ### Documentation #
 
-The complete documentation of this sample is available [here](http://thecollaborationcorner.com/2017/01/25/search-for-your-sharepoint-content-from-a-bot-using-the-bot-framework-oauth2-and-node-js)
+The complete documentation of this sample is available [here](http://thecollaborationcorner.com/2017/01/25/search-for-your-sharepoint-content-from-a-bot-using-the-bot-framework-oauth2-and-node-js).
 
 ### Solution ###
 Solution                | Author(s)
