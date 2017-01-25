@@ -4,6 +4,11 @@
 
 In this sample, I show you how to search for your SharePoint content from a bot using the Bot Framework, OAuth2 and Node.js. Behind this simple use case, the main objective of this example is to show you how to implement bots with authentication mechanism to access OAuth2 protected APIs (like SharePoint, Graph, etc.). The overall authentication process for bots has already been well described in this article but unfortunately, it only exists in .Net (there is also the AuthBot GitHub project, again in .Net).
 
+<p align="center">Sign in experience</p>
+<p align="center">
+    <img width=700 src="./images/record.gif"/>
+</p>
+
 <table style="margin: 0px auto;">
   <tr>
     <th>
