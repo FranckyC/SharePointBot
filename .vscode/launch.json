@@ -11,7 +11,10 @@
             "program": "${workspaceRoot}\\server.js",
             "cwd": "${workspaceRoot}",
             "env":{
-                "REDIRECT_URI": "https://<your generated ngrok URL>.ngrok.io/api/oauthcallback"
+                "REDIRECT_URI": "https://<your generated ngrok URL>.ngrok.io/api/oauthcallback",
+                "LUIS_APP_ID": "CognitiveServices",
+                "LUIS_API_KEY": "65d687fff85948daaf1c000bbffcc0fb",
+                "LUIS_API_HOSTNAME" : ""
             }
         },
         {

@@ -37,6 +37,26 @@ var connector = new builder.ChatConnector({
 
 var bot = new builder.UniversalBot(connector);
 
+// Make sure you add code to validate these fields
+var luisAppId = process.env.LUIS_APP_ID;
+var luisAPIKey = process.env.LUIS_API_KEY;
+var luisAPIHostName = process.env.LUIS_API_HOSTNAME || 'westus.api.cognitive.microsoft.com';
+
+const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' + luisAppId + '&subscription-key=' + luisAPIKey;
+
+// Main dialog with LUIS
+var recognizer = new builder.LuisRecognizer(LuisModelUrl);
+var intents = new builder.IntentDialog({ recognizers: [recognizer] })
+
+.matches('FindDocuments', () => {
+
+    // TODO
+})
+.onDefault((session) => {
+    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
+});
+
+
 //=========================================================
 // Server Setup (Restify)
 //=========================================================
@@ -164,7 +184,7 @@ var getAuthorization = (session, args, next) => {
 //=========================================================
 // Bot Dialogs
 //=========================================================
-bot.dialog('/', [
+/*bot.dialog('/', [
     getAuthorization,
     (session) => {
 
@@ -229,7 +249,7 @@ bot.dialog('/', [
             }
         }
     }]);   
-
+*/
 bot.dialog('/oauth-success', function (session, response) {
 
     // Check the state value to avoid CSRF attacks http://www.twobotechnologies.com/blog/2014/02/importance-of-state-in-oauth2.html
@@ -252,6 +272,8 @@ bot.dialog('/oauth-success', function (session, response) {
         session.beginDialog("/");
     }
 });
+
+bot.dialog('/', getAuthorization, intents);
 
 //=========================================================
 // SharePoint utilities
