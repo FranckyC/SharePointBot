@@ -20,8 +20,10 @@
   "license": "ISC",
   "dependencies": {
     "adal-node": "^0.1.22",
-    "botbuilder": "^3.5.4",
+    "botbuilder": "^3.7.0",
+    "botbuilder-cognitiveservices": "^1.0.1",
     "es6-promise": "^4.0.5",
+    "html-entities": "^1.2.0",
     "lodash": "^4.17.4",
     "node-fetch": "^1.6.3",
     "restify": "^4.3.0"

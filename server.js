@@ -2,6 +2,7 @@
 var builder = require("botbuilder");
 var restify = require('restify');
 var AuthenticationContext = require('adal-node').AuthenticationContext;
+var builder_cognitiveservices = require("botbuilder-cognitiveservices");
 var Promise = require('es6-promise').Promise;
 var _ = require('lodash');
 
@@ -10,12 +11,12 @@ var _ = require('lodash');
 //=========================================================
 
 var adalConfig = {
-    'clientId' : '<your client id>', // The client Id retrieved from the Azure AD App
-    'clientSecret' : '<your client secret>', // The client secret retrieved from the Azure AD App
+    'clientId' : process.env.CLIENT_ID, // The client Id retrieved from the Azure AD App
+    'clientSecret' : process.env.CLIENT_SECRET, // The client secret retrieved from the Azure AD App
     'authorityHostUrl' : 'https://login.microsoftonline.com/', // The host URL for the Microsoft authorization server
-    'tenant' : '<your tenant id or name>>', // The tenant Id or domain name (e.g mydomain.onmicrosoft.com)
+    'tenant' : process.env.TENANT, // The tenant Id or domain name (e.g mydomain.onmicrosoft.com)
     'redirectUri' : process.env.REDIRECT_URI, // This URL will be used for the Azure AD Application to send the authorization code.
-    'resource' : 'https://<your tenant name>.sharepoint.com', // The resource endpoint we want to give access to (in this case, SharePoint Online)
+    'resource' : process.env.RESOURCE, // The resource endpoint we want to give access to (in this case, SharePoint Online)
 }
 
 adalConfig.authorityUrl = adalConfig.authorityHostUrl + adalConfig.tenant;
@@ -28,7 +29,7 @@ adalConfig.templateAuthzUrl =  adalConfig.authorityUrl +
                         '&redirect_uri=' + adalConfig.redirectUri  // If not specified, the adalConfigured reply URL of the Azure AD App will be used 
                     
 //=========================================================
-// Bot Setup
+// Global bot setup
 //=========================================================
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
@@ -58,7 +59,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 
 
 //=========================================================
-// Server Setup (Restify)
+// Server setup (Restify)
 //=========================================================
 var port = process.env.port || process.env.PORT || 3978; // The port number is automatically assigned by Azure if hosted via the Web Application
 var server = restify.createServer();
@@ -182,74 +183,175 @@ var getAuthorization = (session, args, next) => {
 }
 
 //=========================================================
-// Bot Dialogs
+// QnA maker configurations
 //=========================================================
+<<<<<<< Updated upstream
 /*bot.dialog('/', [
     getAuthorization,
     (session) => {
+=======
+var recognizer = new builder_cognitiveservices.QnAMakerRecognizer({
+                    knowledgeBaseId: process.env.QnAKnowledgebaseId, 
+                    subscriptionKey: process.env.QnASubscriptionKey,
+                    top: 3
+                });
 
-        var keywords = session.message.text
+var qnaMakerTools = new builder_cognitiveservices.QnAMakerTools();
+bot.library(qnaMakerTools.createLibrary());
 
-        // Check if a a message has been typed
-        if (keywords) {
+// Custom QnA maker tools to do active learning and non confident matches
+var CustomQnAMakerTools = (function () {
 
-            // For debugging purpose, we add an arbitrary command to reset the bot state (we also could have implement a logout mechanism).
-            // Initially the native /deleteprofile command was used but it is not available in the Bot Framework v3 anymore.
-            if (keywords === "reset") {
-                session.privateConversationData = {};
+    function CustomQnAMakerTools () {
 
-                // Get back to the main dialog route and prompt for a sign in
-                session.beginDialog("/");
+        this.lib = new builder.Library('customQnAMakerTools');
+        this.lib.dialog('answerSelection', [
+            (session, args) => {
+                var qnaMakerResult = args;
+                session.dialogData.qnaMakerResult = qnaMakerResult;
+                var questionOptions = [];
+                qnaMakerResult.answers.forEach(function (qna) { questionOptions.push(qna.questions[0]); });
+
+                // Add the 'None' choice option among all questions
+                questionOptions.push("None of the above.")
+>>>>>>> Stashed changes
+
+                var promptOptions = { listStyle: builder.ListStyle.button };
+                builder.Prompts.choice(session, "There are multiple good matches. Please select from the following:", questionOptions, promptOptions);            
+            },
+            (session, results) => {
+                var qnaMakerResult = session.dialogData.qnaMakerResult;
+                var filteredResult = qnaMakerResult.answers.filter(
+                    (qna) => {
+                        return qna.questions[0] === results.response.entity; 
+                    });
+
+                var selectedQnA = filteredResult[0];
+
+                // if user selected a question
+                if (selectedQnA) {
+
+                    processAnswer(session, selectedQnA.answer, selectedQnA);
+
+                } else {
+                    session.endDialog();
+                }
+            },
+        ]);
+    }
+    CustomQnAMakerTools.prototype.createLibrary = function () {
+        return this.lib;
+    };
+    CustomQnAMakerTools.prototype.answerSelector = function (session, options) {
+        session.beginDialog('customQnAMakerTools:answerSelection', options || {});
+    };
+    return CustomQnAMakerTools;
+}());
+
+var customQnAMakerTools = new CustomQnAMakerTools();
+bot.library(customQnAMakerTools.createLibrary());
+
+var basicQnAMakerDialog = new builder_cognitiveservices.QnAMakerDialog({
+    recognizers:    [recognizer],
+                    defaultMessage: 'No match! Try changing the query terms!',
+                    qnaThreshold: 0.3,
+                    feedbackLib: customQnAMakerTools
+    }
+);
+
+// Override to also include the knowledgebase question with the answer on confident matches
+basicQnAMakerDialog.respondFromQnAMakerResult = function(session, qnaMakerResult) {
+    processAnswer(session, qnaMakerResult.answers[0].answer, null);
+}
+
+var processAnswer = function(session, answer, selectedQnA) {
+
+    // Check if the answer is a serach query (between curly braces, which is an arbitrary notation)
+    var searchQuery = answer.match(/^\{(.*?)\}$/);
+
+    if (searchQuery) {
+        
+        // Get the user personal access token
+        var accessToken = session.privateConversationData['accessToken'];
+
+        // Now we have the token so we can make authenticated REST all to SharePoint or Graph API endpoints.        
+        doSearch(searchQuery[1], accessToken).then((res) => {
+
+            if (res.error) {
+                session.send("Error: %s", res.error.message.value);
 
             } else {
 
-                var accessToken = session.privateConversationData['accessToken'];
+                var cards = [];
+                var results = res.d.query.PrimaryQueryResult.RelevantResults.Table.Rows.results;
 
-                // Now we have the token so we can make authenticated REST all to SharePoint or Graph API endpoints.        
-                doSearch(keywords, accessToken).then((res) => {
+                if (results.length > 0) {
 
-                    if (res.error) {
-                        session.send("Error: %s", res.error.message.value);
+                    // Format search results wit ha Thumbnail card
+                    _.each(results, function(value) {
 
+                        var title = _.find(value.Cells.results, function(o) { return o.Key === "Title"; }).Value;
+                        var link = builder.CardAction.openUrl(session, 
+                            _.find(value.Cells.results, function(o) { return o.Key === "Path"; }).Value,
+                            'View')
+                        var fileType = _.find(value.Cells.results, function(o) { return o.Key === "FileType"; }).Value;
+                        var hitHighlightedSummary = _.find(value.Cells.results, function(o) { return o.Key === "HitHighlightedSummary"; }).Value;
+                        hitHighlightedSummary = hitHighlightedSummary.replace(/<c0>|<\/c0>/g,"").replace(/<ddd\/>/g,"");
+                        var elt = new builder.ThumbnailCard(session).title(title).text(_.unescape(hitHighlightedSummary)).subtitle("Type: " + fileType).buttons([link]);
+
+                        cards.push(elt);       
+                    });
+
+                    // create reply with Carousel AttachmentLayout
+                    var reply = new builder.Message(session)
+                        .attachmentLayout(builder.AttachmentLayout.carousel)
+                        .attachments(cards);
+
+                    console.log(reply);
+                    session.send(reply);
+
+                    // The following ends the dialog and returns the selected response to the parent dialog, which logs the record in QnA Maker service
+                    // You can simply end the dialog, in case you don't want to learn from these selections using session.endDialog()
+                    session.endDialogWithResult(selectedQnA);
+                    
+                } else {
+                    session.send("Sorry, we didn't find anything for '\%s\'", keywords);
+                    if (selectedQnA) {
+                        session.endDialogWithResult(selectedQnA);
                     } else {
-
-                        var cards = [];
-                        var results = res.d.query.PrimaryQueryResult.RelevantResults.Table.Rows.results;
-
-                        if (results.length > 0) {
-
-                            // Format search results wit ha Thumbnail card
-                            _.each(results, function(value) {
-
-                                var title = _.find(value.Cells.results, function(o) { return o.Key === "Title"; }).Value;
-                                var link = builder.CardAction.openUrl(session, 
-                                    _.find(value.Cells.results, function(o) { return o.Key === "Path"; }).Value,
-                                    'View')
-                                var fileType = _.find(value.Cells.results, function(o) { return o.Key === "FileType"; }).Value;
-                                var hitHighlightedSummary = _.find(value.Cells.results, function(o) { return o.Key === "HitHighlightedSummary"; }).Value;
-                                hitHighlightedSummary = hitHighlightedSummary.replace(/<c0>|<\/c0>/g,"").replace(/<ddd\/>/g,"");
-                                var elt = new builder.ThumbnailCard(session).title(title).text(_.unescape(hitHighlightedSummary)).subtitle("Type: " + fileType).buttons([link]);
-
-                                cards.push(elt);       
-                            });
-
-                            // create reply with Carousel AttachmentLayout
-                            var reply = new builder.Message(session)
-                                .attachmentLayout(builder.AttachmentLayout.carousel)
-                                .attachments(cards);
-
-                            console.log(reply);
-                            session.send(reply);
-                            
-                        } else {
-                            session.send("Sorry, we didn't find anything for '\%s\'", keywords);
-                        }
+                        session.endDialog();
                     }
-                });
+                }
             }
+        }).catch((error) => {
+
+            session.send(error);
+            if (selectedQnA) {
+                session.endDialogWithResult(selectedQnA);
+            } else {
+                 session.endDialog();
+            }
+        });
+
+    } else {
+        session.send(answer);
+
+        if (selectedQnA) {
+            session.endDialogWithResult(selectedQnA);
+        } else {
+            session.endDialog();
         }
+<<<<<<< Updated upstream
     }]);   
 */
+=======
+    }
+};
+
+//=========================================================
+// Bot Dialogs
+//=========================================================
+>>>>>>> Stashed changes
 bot.dialog('/oauth-success', function (session, response) {
 
     // Check the state value to avoid CSRF attacks http://www.twobotechnologies.com/blog/2014/02/importance-of-state-in-oauth2.html
@@ -273,7 +375,35 @@ bot.dialog('/oauth-success', function (session, response) {
     }
 });
 
+<<<<<<< Updated upstream
 bot.dialog('/', getAuthorization, intents);
+=======
+bot.dialog('/', 
+    [   getAuthorization,
+        (session) => {
+
+            var keywords = session.message.text
+
+            // Check if a a message has been typed
+            if (keywords) {
+
+                // For debugging purpose, we add an arbitrary command to reset the bot state (we also could have implement a logout mechanism).
+                // Initially the native /deleteprofile command was used but it is not available in the Bot Framework v3 anymore.
+                if (keywords === "reset") {
+                    session.privateConversationData = {};
+
+                    // Get back to the main dialog route and prompt for a sign in
+                    session.beginDialog("/");
+                } else {
+
+                    session.beginDialog("/qna");
+                }
+            }
+        }
+    ]);
+
+bot.dialog('/qna', basicQnAMakerDialog);
+>>>>>>> Stashed changes
 
 //=========================================================
 // SharePoint utilities
@@ -325,7 +455,7 @@ var acquireTokenWithAuthorizationCode = (authorizationCode) => {
             (err, response) => {
 
                 if (err) {
-                    reject(errorMessage = 'error: ' + err.message + '\n');
+                    reject('error: ' + err.message + '\n');
 
                 } else {
                     resolve({ 
