@@ -9,7 +9,6 @@ var _ = require('lodash');
 //=========================================================
 // ADAL Configuration
 //=========================================================
-
 var adalConfig = {
     'clientId' : process.env.CLIENT_ID, // The client Id retrieved from the Azure AD App
     'clientSecret' : process.env.CLIENT_SECRET, // The client secret retrieved from the Azure AD App
@@ -37,26 +36,6 @@ var connector = new builder.ChatConnector({
 });
 
 var bot = new builder.UniversalBot(connector);
-
-// Make sure you add code to validate these fields
-var luisAppId = process.env.LUIS_APP_ID;
-var luisAPIKey = process.env.LUIS_API_KEY;
-var luisAPIHostName = process.env.LUIS_API_HOSTNAME || 'westus.api.cognitive.microsoft.com';
-
-const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v1/application?id=' + luisAppId + '&subscription-key=' + luisAPIKey;
-
-// Main dialog with LUIS
-var recognizer = new builder.LuisRecognizer(LuisModelUrl);
-var intents = new builder.IntentDialog({ recognizers: [recognizer] })
-
-.matches('FindDocuments', () => {
-
-    // TODO
-})
-.onDefault((session) => {
-    session.send('Sorry, I did not understand \'%s\'.', session.message.text);
-});
-
 
 //=========================================================
 // Server setup (Restify)
@@ -185,12 +164,7 @@ var getAuthorization = (session, args, next) => {
 //=========================================================
 // QnA maker configurations
 //=========================================================
-<<<<<<< Updated upstream
-/*bot.dialog('/', [
-    getAuthorization,
-    (session) => {
-=======
-var recognizer = new builder_cognitiveservices.QnAMakerRecognizer({
+var qnaRecognizer = new builder_cognitiveservices.QnAMakerRecognizer({
                     knowledgeBaseId: process.env.QnAKnowledgebaseId, 
                     subscriptionKey: process.env.QnASubscriptionKey,
                     top: 3
@@ -214,7 +188,6 @@ var CustomQnAMakerTools = (function () {
 
                 // Add the 'None' choice option among all questions
                 questionOptions.push("None of the above.")
->>>>>>> Stashed changes
 
                 var promptOptions = { listStyle: builder.ListStyle.button };
                 builder.Prompts.choice(session, "There are multiple good matches. Please select from the following:", questionOptions, promptOptions);            
@@ -252,7 +225,7 @@ var customQnAMakerTools = new CustomQnAMakerTools();
 bot.library(customQnAMakerTools.createLibrary());
 
 var basicQnAMakerDialog = new builder_cognitiveservices.QnAMakerDialog({
-    recognizers:    [recognizer],
+    recognizers:    [qnaRecognizer],
                     defaultMessage: 'No match! Try changing the query terms!',
                     qnaThreshold: 0.3,
                     feedbackLib: customQnAMakerTools
@@ -266,7 +239,7 @@ basicQnAMakerDialog.respondFromQnAMakerResult = function(session, qnaMakerResult
 
 var processAnswer = function(session, answer, selectedQnA) {
 
-    // Check if the answer is a serach query (between curly braces, which is an arbitrary notation)
+    // Check if the answer is a serach query (between curly braces, which is an arbitrary pattern)
     var searchQuery = answer.match(/^\{(.*?)\}$/);
 
     if (searchQuery) {
@@ -340,18 +313,13 @@ var processAnswer = function(session, answer, selectedQnA) {
             session.endDialogWithResult(selectedQnA);
         } else {
             session.endDialog();
-        }
-<<<<<<< Updated upstream
-    }]);   
-*/
-=======
+        } 
     }
 };
 
 //=========================================================
 // Bot Dialogs
 //=========================================================
->>>>>>> Stashed changes
 bot.dialog('/oauth-success', function (session, response) {
 
     // Check the state value to avoid CSRF attacks http://www.twobotechnologies.com/blog/2014/02/importance-of-state-in-oauth2.html
@@ -375,9 +343,6 @@ bot.dialog('/oauth-success', function (session, response) {
     }
 });
 
-<<<<<<< Updated upstream
-bot.dialog('/', getAuthorization, intents);
-=======
 bot.dialog('/', 
     [   getAuthorization,
         (session) => {
@@ -403,7 +368,6 @@ bot.dialog('/',
     ]);
 
 bot.dialog('/qna', basicQnAMakerDialog);
->>>>>>> Stashed changes
 
 //=========================================================
 // SharePoint utilities

@@ -1,27 +1,28 @@
 {
-  "name": "sp-oauth2-bot",
-  "version": "1.0.0",
-  "description": "Sample showing how to authenticate against SharePoint via OAuth2 using the bot framework with NodeJS",
-  "main": "app.js",
+  "name": "sp-qna-bot",
+  "version": "1.1.0",
+  "description": "Sample QnA maker Bot for SharePoint Online using OAuth2",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://perso-franckdev.visualstudio.com/_git/SharePointOAuth2Bot"
+    "url": "https://github.com/FranckyC/SharePointBot.git"
   },
   "keywords": [
     "OAuth2",
     "SharePoint",
     "Bot",
+    "QnA Maker",
     "Framework"
   ],
-  "author": "Franck Cornu",
-  "license": "ISC",
+  "author": "Franck Cornu - @FranckCornu (aequos)",
+  "license": "MIT",
   "dependencies": {
     "adal-node": "^0.1.22",
     "botbuilder": "^3.7.0",
-    "botbuilder-cognitiveservices": "^1.0.1",
+    "botbuilder-cognitiveservices": "^1.1.0",
     "es6-promise": "^4.0.5",
     "html-entities": "^1.2.0",
     "lodash": "^4.17.4",
