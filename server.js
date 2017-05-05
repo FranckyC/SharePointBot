@@ -165,8 +165,8 @@ var getAuthorization = (session, args, next) => {
 // QnA maker configurations
 //=========================================================
 var qnaRecognizer = new builder_cognitiveservices.QnAMakerRecognizer({
-                    knowledgeBaseId: process.env.QnAKnowledgebaseId, 
-                    subscriptionKey: process.env.QnASubscriptionKey,
+                    knowledgeBaseId: process.env.QNA_KNOWLEDGEBASE_ID, 
+                    subscriptionKey: process.env.QNA_SUBSCRIPTION_KEY,
                     top: 3
                 });
 

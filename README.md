@@ -64,7 +64,7 @@ THIS CODE IS PROVIDED AS IS WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPL
 
 1. Create a new QnA knowledge base (https://qnamaker.ai) and add it some values. Train and publish the KB.
 2. Create a new Azure Node JS empty web app and deploy the bot code. I suggest you to use a forked version of this repository as deployment source for the web app
-3. Set the Node JS environment variables corresponding to your setup in the newly created web application:
+3. Set the Node JS environment variables corresponding to your setup in the web application settings:
 
 Variable | Comment | Sample value
 -------- | ------- | ------------
@@ -75,8 +75,10 @@ CLIENT_ID | The client Id retrieved from the Azure AD App | "3c837f67-1f08-4a89-
 CLIENT_SECRET | The client secret retrieved from the Azure AD App | "e+8eV0GHACfvb7kYrX2KkqC1RzNEYqK8tHW4piYlNZg="
 QNA_KNOWLEDGEBASE_ID | The QnA Maker knowledge base Id. You can get this info in the "Settings" tab in the QnA maker portal | "b8fa0f6e-43f1-406f-820f-49f2a7122073"
 QNA_SUBSCRIPTION_KEY | Same as above | "b1d488a60f684d75959f967c53ad6b07"
+MICROSOFT_APP_ID | The bot id retrieved form the Bot Framework portal  | "a0095b82-a596-450f-957a-a62b858b75cf" 
+MICROSOFT_APP_PASSWORD | The bot app password retrieved form the Bot Framework portal. This password is only visible at the bot creation step | "o4cB3gckew7tqtTnvLUPiK1"
 
-4. Create an new Azure AD Application. Set the reply url to point to web application (e.g <your_bot_azurewebsite_url>/api/oauthcallback). Get the client is and secret and complete the web app settings.
+4. Create an new Azure AD Application. Set the reply url to point to web application (e.g <your_bot_azurewebsite_url>/api/oauthcallback). Get the client is and secret and update the web app settings.
 5. Register a new bot in the Bot framework portal (https://dev.botframework.com/)
 6. Configure the bot service messaging endpoint URL with your Azure website URL (e.g <your_bot_azurewebsite_url>/api/messages)
 7. Use it with different channels!
