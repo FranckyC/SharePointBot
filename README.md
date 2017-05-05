@@ -78,8 +78,8 @@ QNA_SUBSCRIPTION_KEY | Same as above | "b1d488a60f684d75959f967c53ad6b07"
 BOT_MICROSOFT_APP_ID | The bot id retrieved form the Bot Framework portal  | "a0095b82-a596-450f-957a-a62b858b75cf" 
 BOT_MICROSOFT_APP_PASSWORD | The bot app password retrieved form the Bot Framework portal. This password is only visible at the bot creation step | "o4cB3gckew7tqtTnvLUPiK1"
 
-4. Create an new Azure AD Application. Set the reply url to point to web application (e.g <your_bot_azurewebsite_url>/api/oauthcallback). Get the client is and secret and update the web app settings.
-5. Register a new bot in the Bot framework portal (https://dev.botframework.com/)
+4. Create an new Azure AD Application (refer to the URL below to know how). Set the reply url to point to web application (e.g <your_bot_azurewebsite_url>/api/oauthcallback). Get the client is and secret and update the web app settings.
+5. Register a new bot in the Bot framework portal (https://dev.botframework.com/). Update the web app settings.
 6. Configure the bot service messaging endpoint URL with your Azure website URL (e.g <your_bot_azurewebsite_url>/api/messages)
 7. Use it with different channels!
 8. (Optional) Integrate the bot with the [PnP Starter Intranet solution](https://github.com/SharePoint/PnP/tree/master/Solutions/Business.StarterIntranet)
