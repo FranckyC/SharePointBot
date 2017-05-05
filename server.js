@@ -10,8 +10,8 @@ var _ = require('lodash');
 // ADAL Configuration
 //=========================================================
 var adalConfig = {
-    'clientId' : process.env.CLIENT_ID, // The client Id retrieved from the Azure AD App
-    'clientSecret' : process.env.CLIENT_SECRET, // The client secret retrieved from the Azure AD App
+    'clientId' : process.env.AAD_CLIENT_ID, // The client Id retrieved from the Azure AD App
+    'clientSecret' : process.env.AAD_CLIENT_SECRET, // The client secret retrieved from the Azure AD App
     'authorityHostUrl' : 'https://login.microsoftonline.com/', // The host URL for the Microsoft authorization server
     'tenant' : process.env.TENANT, // The tenant Id or domain name (e.g mydomain.onmicrosoft.com)
     'redirectUri' : process.env.REDIRECT_URI, // This URL will be used for the Azure AD Application to send the authorization code.
@@ -31,8 +31,8 @@ adalConfig.templateAuthzUrl =  adalConfig.authorityUrl +
 // Global bot setup
 //=========================================================
 var connector = new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: process.env.BOT_MICROSOFT_APP_ID,
+    appPassword: process.env.BOT_MICROSOFT_APP_PASSWORD
 });
 
 var bot = new builder.UniversalBot(connector);

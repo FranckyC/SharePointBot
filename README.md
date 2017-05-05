@@ -71,12 +71,12 @@ Variable | Comment | Sample value
 REDIRECT_URI | This URL will be used for the Azure AD Application to send the authorization code (must be the same as the one configured in the AAD app) | "<your_bot_azurewebsite_url>/api/oauthcallback"
 TENANT | The tenant Id or domain name | "<your_company>.onmicrosoft.com"
 RESOURCE | The resource endpoint we want to give access to (in this case, SharePoint Online) | "https://<your_company>.sharepoint.com"
-CLIENT_ID | The client Id retrieved from the Azure AD App | "3c837f67-1f08-4a89-8e46-e8ab75f2ec22"
-CLIENT_SECRET | The client secret retrieved from the Azure AD App | "e+8eV0GHACfvb7kYrX2KkqC1RzNEYqK8tHW4piYlNZg="
+AAD_CLIENT_ID | The client Id retrieved from the Azure AD App | "3c837f67-1f08-4a89-8e46-e8ab75f2ec22"
+AAD_CLIENT_SECRET | The client secret retrieved from the Azure AD App | "e+8eV0GHACfvb7kYrX2KkqC1RzNEYqK8tHW4piYlNZg="
 QNA_KNOWLEDGEBASE_ID | The QnA Maker knowledge base Id. You can get this info in the "Settings" tab in the QnA maker portal | "b8fa0f6e-43f1-406f-820f-49f2a7122073"
 QNA_SUBSCRIPTION_KEY | Same as above | "b1d488a60f684d75959f967c53ad6b07"
-MICROSOFT_APP_ID | The bot id retrieved form the Bot Framework portal  | "a0095b82-a596-450f-957a-a62b858b75cf" 
-MICROSOFT_APP_PASSWORD | The bot app password retrieved form the Bot Framework portal. This password is only visible at the bot creation step | "o4cB3gckew7tqtTnvLUPiK1"
+BOT_MICROSOFT_APP_ID | The bot id retrieved form the Bot Framework portal  | "a0095b82-a596-450f-957a-a62b858b75cf" 
+BOT_MICROSOFT_APP_PASSWORD | The bot app password retrieved form the Bot Framework portal. This password is only visible at the bot creation step | "o4cB3gckew7tqtTnvLUPiK1"
 
 4. Create an new Azure AD Application. Set the reply url to point to web application (e.g <your_bot_azurewebsite_url>/api/oauthcallback). Get the client is and secret and update the web app settings.
 5. Register a new bot in the Bot framework portal (https://dev.botframework.com/)
