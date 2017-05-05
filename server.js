@@ -119,6 +119,8 @@ var getAuthorization = (session, args, next) => {
         if (session.message.address.channelId === "msteams") {
 
              var link = builder.CardAction.openUrl(session, authorizationUrl,buttonLabel)
+             link = "javascript:window.open('"+ link + "', 'auth', 'width=100,height=100');";
+
              signInCard = new builder.ThumbnailCard(session)
              .title("Authorization required!")
              .text(actionLabel)
