@@ -4,7 +4,7 @@
 
 In this sample, I show you how to implement a QnA bot for SharePoint Online by using search queries as dynamic answers in the knowledge base. From a functional point of view, it is simple solution to improve search capabilities for users in an intranet solution rather than using regular SharePoint search query rules. From a technical point of view, the main objective is to show you how to implement bots with an authentication mechanism to access OAuth2 protected APIs (like SharePoint, Graph, etc.).
 
-In addition, to see this bot in action in a real intranet context, you can plug it to the [PnP Starter Intranet solution for SharePoint Online](https://github.com/SharePoint/PnP/tree/master/Solutions/Business.StarterIntranet).
+In addition, to see this bot in action in a real intranet context, you can use it with to the [PnP Starter Intranet solution for SharePoint Online](https://github.com/SharePoint/PnP/tree/master/Solutions/Business.StarterIntranet).
 
 <p align="center">Sign in experience</p>
 <p align="center">
@@ -34,10 +34,18 @@ In addition, to see this bot in action in a real intranet context, you can plug 
   </tr>
 </table>
 
-<p align="center">Integration with the PnP Starter Intranet solution</p>
-<p align="center">
-    
-</p>TODO
+<table style="margin: 0px auto;">
+  <tr>
+    <th>
+      <p align="center">Integration with the PnP Starter Intranet solution</p>
+      <p align="center">
+        <img src="./images/bot-demo.gif">
+      </p>
+    </th>
+  </tr>
+</table>
+
+
 
 ### Documentation #
 
@@ -82,6 +90,6 @@ BOT_MICROSOFT_APP_PASSWORD | The bot app password retrieved form the Bot Framewo
 5. Register a new bot in the Bot framework portal (https://dev.botframework.com/). Update the web app settings.
 6. Configure the bot service messaging endpoint URL with your Azure website URL (e.g <your_bot_azurewebsite_url>/api/messages)
 7. Use it with different channels!
-8. (Optional) Integrate the bot with the [PnP Starter Intranet solution](https://github.com/SharePoint/PnP/tree/master/Solutions/Business.StarterIntranet)
+8. (Optional) Integrate the bot with the [PnP Starter Intranet solution](https://github.com/FranckyC/PnP/tree/feature/starter-intranet-v1.3/Solutions/Business.StarterIntranet#configure-the-qna-bot).
 
 See this [URL](http://thecollaborationcorner.com/2017/01/25/search-for-your-sharepoint-content-from-a-bot-using-the-bot-framework-oauth2-and-node-js) to see the complete step-by-step guide.
