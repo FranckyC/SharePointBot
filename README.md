@@ -11,21 +11,21 @@ In addition, to see this bot in action in a real intranet context, you can use i
     <img width=700 src="./images/record.gif"/>
 </p>
 
-<table style="margin: 0px auto;">
-  <tr>
-    <th>
+<table style="margin: 0px auto;border: 0px">
+  <tr style="border: none">
+    <th style="border: none">
         <p align="center">Web Chat Channel</p>
         <p align="center">
             <img width=300 src="./images/WebChatChannel.png"/>
         </p>
     </th>
-    <th>
+    <th style="border: none">
         <p align="center">Skype Channel</p>
         <p align="center">
             <img width=300 src="./images/SkypeChannel.png"/>
         </p>
     </th>
-    <th>
+    <th style="border: none">
         <p align="center">Microsoft Teams Channel</p>
         <p align="center">
             <img width=300 src="./images/MicrosoftTeamsChannel.png">
@@ -35,8 +35,8 @@ In addition, to see this bot in action in a real intranet context, you can use i
 </table>
 
 <table style="margin: 0px auto;">
-  <tr>
-    <th>
+  <tr style="border: none">
+    <th style="border: none">
       <p align="center">Integration with the PnP Starter Intranet solution</p>
       <p align="center">
         <img src="./images/bot-demo.gif">
@@ -44,8 +44,6 @@ In addition, to see this bot in action in a real intranet context, you can use i
     </th>
   </tr>
 </table>
-
-
 
 ### Documentation #
 
