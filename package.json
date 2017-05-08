@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "adal-node": "^0.1.22",
-    "botbuilder": "^3.7.0",
+    "botbuilder": "3.7.0",
     "botbuilder-cognitiveservices": "^1.1.0",
     "es6-promise": "^4.0.5",
     "html-entities": "^1.2.0",
