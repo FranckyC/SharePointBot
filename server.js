@@ -103,6 +103,8 @@ server.post('/api/oauthcallback', (req, res, next) => {
 //=========================================================
 var getAuthorization = (session, args, next) => {
 
+    session.send(session.privateConversationData['accessToken']);
+
     // User is not already signed-in
     if (!session.privateConversationData['accessToken']) {
 
